@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@import './assets/fonts/DINNextLTPro/stylesheet.css';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'DIN Next Rounded LT Pro';
+}
+
+.border-none {
+    border: none !important;
+}
