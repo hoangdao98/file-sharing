@@ -1,0 +1,167 @@
+@import '_variables.scss';
+
+.icons {
+    margin: 20px 0 0 20px;
+
+    .icon {
+        width: 80px;
+        cursor: pointer;
+
+        &-image {
+            max-width: 100%;
+        }
+    }
+}
+
+app-modal-dialog {
+    .modal-header__icon {
+        width: 100px;
+    }
+
+    header {
+        margin-bottom: 10px;
+    }
+
+    .full {
+        flex-grow: 1;
+    }
+
+    .form-group {
+        display: flex;
+        padding-bottom: 3px;
+        margin-bottom: 3px;
+        vertical-align: baseline;
+        border-bottom: 0.5px solid #ececec;
+        padding: 10px 15px;
+
+        label {
+            padding-right: 10px;
+            font-weight: 500;
+        }
+
+        input,
+        textarea {
+            all: unset;
+            width: 100%;
+            color: $text;
+        }
+    }
+
+    .files {
+        margin: 5px 15px;
+        border: 1px dotted #0085ff;
+        flex-grow: 1;
+        border-radius: 5px;
+        position: relative;
+
+        &:hover {
+            background: #f3f9fe;
+        }
+
+        .box-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            flex-grow: 1;
+
+            label {
+                cursor: pointer;
+            }
+
+            .box-file {
+                visibility: hidden;
+            }
+
+            .absolute {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+        }
+
+    }
+
+    .uploading-infor {
+        display: flex;
+        justify-content: space-between;
+
+        .infor-right {
+            .time {
+                margin-right: 15px;
+            }
+        }
+    }
+
+    .progress-all-files {
+        height: 5px;
+        border-radius: 5px;
+        background: #ccc;
+        margin: 10px 0;
+        box-sizing: border-box;
+        position: relative;
+
+        .loadding {
+            height: 5px;
+            border-radius: 5px;
+            background: orange;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    .box-uploading {
+        flex-direction: column;
+        border-bottom: none;
+
+        .items {
+            max-height: 245px;
+            height: 245px;
+            .item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .item-info {
+                    display: flex;
+                    align-items: center;
+
+                    i {
+                        img {
+                            width: 30px;
+                            height: auto;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: flex-end;
+        margin: 0 10px;
+
+        .btn {
+            padding: 8px 0;
+            border-radius: 3px;
+            border: none;
+            background: $btn-bg;
+            color: $btn-color;
+            font-weight: 500;
+            margin: 10px 5px;
+            cursor: pointer;
+            width: 70px;
+
+            &-send {
+                background: $btn-primary;
+                color: #fff;
+            }
+        }
+    }
+}
