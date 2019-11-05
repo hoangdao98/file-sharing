@@ -1,106 +1,168 @@
-<app-modal-dialog appDragDrop>
-    <header>
-        <div class="form-group">
-            <label for="to">To:</label>
-            <div class="full">
-                <input type="text" id="to"
-                [(ngModel)]="currentData.to"
-                #mailto="ngModel"
-                email required>
-            </div>
-            <div style="color:red" 
-                *ngIf="mailto.errors && (mailto.dirty || mailto.touched || mailto.untouched)">
-                
-                <p *ngIf="mailto.errors.email">
-                    The email is invalid
-                </p>
+<!-- Uploading -->
+<app-modal-dialog appDragDrop *ngIf="!state.uploadSuccess" class="uploading"
+[height]="'auto'" [minHeight]="'500px'" [width]="'450px'">
+  <header>
+    <div class="form-group">
+      <label for="to">To:</label>
+      <div class="full">
+        <input
+          type="text"
+          id="to"
+          [(ngModel)]="currentData.to"
+          #mailto="ngModel"
+          email
+          required
+        />
+      </div>
+      <div
+        style="color:red"
+        *ngIf="
+          mailto.errors && (mailto.dirty || mailto.touched || mailto.untouched)
+        "
+      >
+        <p *ngIf="mailto.errors.email">
+          The email is invalid
+        </p>
 
-                <p *ngIf="mailto.errors.required">
-                    The email is invalid
-                </p>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="subject">Subject:</label>
-            <div class="full">
-                <input type="text" id="subject" [(ngModel)]="currentData.subject" required>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="Message">Message:</label>
-            <div class="full">
-                <input type="text" id="Message" [(ngModel)]="currentData.message" required>
-            </div>
-        </div>
-    </header>
-
-    <ng-template [ngIf] = "fileList">
-        <div class="form-group box-uploading">
-            <div class="uploading-infor">
-                <div class="infor-byte">
-                    <span>14.06 MB/sec</span>
-                </div>
-
-                <div class="infor-right infor-times infor-total-file">
-                    <span class="time">
-                        25 min 32 sec
-                    </span>
-
-                    <span class="total">
-                        13/54
-                    </span>
-                </div>
-            </div>
-
-            <div class="progress-all-files">
-                <div class="loadding" [style.width.%]="progress"></div>
-            </div>
-
-            <div class="items">
-                <ng-container *ngFor="let file of currentData.files; let length = count; let i = index">
-                    <div class="form-group item">
-                        <div class="item-info">
-                            <i [ngSwitch]="file.type">
-                                <img class="icon-file"
-                                    *ngSwitchCase="'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
-                                    src="../../../assets/images/word.svg">
-                                <img class="icon-file" *ngSwitchDefault
-                                    src="../../../assets/images/file.svg">
-                            </i>
-                            <span class="file-name">{{file.name}}</span>
-                        </div>
-                    
-                        <div class="item-icon">
-                            <div class="progress-bar">
-                                <div class="progress">
-
-                                </div>
-                            </div>
-                            <i (click)="removeFile(i)">Delete</i>
-                        </div>
-                    </div>
-                </ng-container>
-
-            </div>
-        </div>
-    </ng-template>
-
-    <ng-template [ngIf] = "!fileList">
-        <div class="form-group files">
-            <div class="box-input">
-                <span>Drag & Drop files here to upload or</span>
-                <input type="file" class="box-file" id="upload-files" multiple (change)="handleFileInput($event.target.files)">
-                <label for="upload-files">Add files</label>
-                <label for="upload-files" class="absolute"></label>
-            </div>
-        </div>
-    </ng-template> 
-
-    <div class="btn-group">
-        <button class="btn btn-cancel btn-fixed">Cancel</button>
-        <button class="btn btn-send btn-fixed" (click)="saveDataForm()">Send</button>
+        <p *ngIf="mailto.errors.required">
+          The email is invalid
+        </p>
+      </div>
     </div>
 
+    <div class="form-group">
+      <label for="subject">Subject:</label>
+      <div class="full">
+        <input
+          type="text"
+          id="subject"
+          [(ngModel)]="currentData.subject"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="Message">Message:</label>
+      <div class="full">
+        <input
+          type="text"
+          id="Message"
+          [(ngModel)]="currentData.message"
+          required
+        />
+      </div>
+    </div>
+  </header>
+
+  <ng-template [ngIf]="currentData.files.length !== 0">
+    <div class="form-group box-files">
+      <div class="uploading-infor">
+        <div class="uploading-total-file">
+          Total: {{ currentData.files.length }} files
+        </div>
+        <div class="infor-byte" *ngIf="state.uploading">
+          <span>{{ uploadSpeedPerOneSecond | convertByte }}/sec</span>
+        </div>
+      </div>
+
+      <div class="progress-all-files">
+        <div class="loadding" [style.width.%]="process"></div>
+      </div>
+
+      <div class="items" [ngClass]="{
+          'uploading': state.uploading
+      }">
+        <ng-container
+          *ngFor="
+            let file of currentData.files;
+            let length = count;
+            let i = index
+          "
+        >
+          <div class="form-group item">
+            <div class="item-info">
+              <i [ngSwitch]="file.type">
+                <img
+                  class="icon-file"
+                  *ngSwitchCase="
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                  "
+                  src="../../../assets/images/word.svg"
+                />
+                <img
+                  class="icon-file"
+                  *ngSwitchDefault
+                  src="../../../assets/images/file.svg"
+                />
+              </i>
+
+              <div class="">
+                <span class="file-name">{{ file.name }}</span>
+                <em>{{ file.size | convertByte }}</em>
+              </div>
+            </div>
+
+            <div class="item-icon">
+              <i (click)="removeFile(i)" class="far fa-trash-alt"></i>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template [ngIf]="currentData.files.length === 0">
+    <div class="form-group files">
+      <div class="box-input">
+        <span>Drag & Drop files here to upload or</span>
+        <input
+          type="file"
+          class="box-file"
+          id="upload-files"
+          multiple
+          (change)="handleFileInput($event.target.files)"
+        />
+        <label for="upload-files">Add files</label>
+        <label for="upload-files" class="absolute"></label>
+      </div>
+    </div>
+  </ng-template>
+
+  <footer class="footer">
+    <div class="options" *ngIf="currentData.files.length !== 0">
+      <ng-template [ngIf]="!state.uploading">
+        <label for="upload-more">Add File</label>
+        <input type="file" multiple id="upload-more" />
+      </ng-template>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-cancel btn-fixed">Cancel</button>
+      <button class="btn btn-send btn-fixed" (click)="saveDataForm()">
+        Send
+      </button>
+    </div>
+  </footer>
+</app-modal-dialog>
+
+<!-- Uploaded -->
+<app-modal-dialog appDragDrop *ngIf="state.uploadSuccess" class="uploaded"
+[height]="'425px'" [width]="'375px'">
+  <div class="uploaded-header">
+    <div class="uploaded-success-icon">
+      <div class="uploaded-success-icon__tip"></div>
+      <div class="uploaded-success-icon__long"></div>
+    </div>
+
+    <h1>File send!</h1>
+  </div>
+
+  <div class="uploaded-notification">
+    <p>We are send an email to {{this.currentData.to}} with a download link. The link will exprire in 30 days</p>
+
+    <div class="btn-group">
+      <a class='btn btn-fixed btn-view-files' [routerLink]="['/shared', responseEvent._id]">View file</a>
+      <button class='btn btn-fixed btn-resend-files' (click)="reset()">Send another file</button>
+    </div>
+  </div>
 </app-modal-dialog>

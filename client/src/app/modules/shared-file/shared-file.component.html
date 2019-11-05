@@ -1,0 +1,52 @@
+<app-modal-dialog
+  appDragDrop
+  class="download"
+  [height]="'auto'"
+  [minHeight]="'500px'"
+  [width]="'450px'"
+>
+  <div class="download-header">
+    <i class="fas fa-download"></i>
+    <h1>Download file</h1>
+  </div>
+
+  <div class="download-files box-files">
+    <div class="items">
+      <ng-container *ngFor="let file of currentData.files">
+          <div class="form-group item">
+              <div class="item-info">
+                  <i [ngSwitch]="file.type">
+                    <img
+                      class="icon-file"
+                      *ngSwitchCase="
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                      "
+                      src="../../../assets/images/word.svg"
+                    />
+                    <img
+                      class="icon-file"
+                      *ngSwitchDefault
+                      src="../../../assets/images/file.svg"
+                    />
+                  </i>
+    
+                  <div class="">
+                    <span class="file-name">{{ file.name }}</span>
+                    <em>{{ file.size | convertByte }}</em>
+                  </div>
+                </div>
+      
+              <div class="item-icon">
+                <a [attr.href]="sharedFileService.SERVER_URL + '/download/' + file._id">Download</a>
+              </div>
+            </div>
+      </ng-container>
+    </div>
+
+    <div class="btn-group">
+        <a class="btn btn-fixed"
+        [attr.href]="sharedFileService.SERVER_URL + '/posts/' + currentData._id + '/download'">Download all</a>
+        <a class="btn btn-fixed">Share</a>
+    </div>
+  </div>
+</app-modal-dialog>

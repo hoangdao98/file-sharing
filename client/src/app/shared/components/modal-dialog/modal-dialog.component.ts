@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { EventEmitter } from 'events';
 
 @Component({
@@ -9,6 +9,10 @@ import { EventEmitter } from 'events';
 export class ModalDialogComponent implements OnInit {
   public closeEvent =  new EventEmitter();
   @ViewChild('dynamicComponent', {static: true}) private container;
+  @Input() height: any;
+  @Input() width: any;
+  @Input() minHeight: any;
+  @Input() minWidth: any;
   public fileTitle = 'Sharing files';
   constructor() { }
 

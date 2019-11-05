@@ -1,0 +1,56 @@
+app-modal-dialog {
+    .download {
+        &-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            i {
+                font-size: 50px;
+            }
+
+            h1 {
+                margin-top: 20px;
+            }
+        }
+
+        &-files {
+            flex-grow: 1;
+            display: flex;
+            .items {
+                flex-grow: 1;
+                overflow: auto;
+                max-height: 200px;
+            }
+            .file {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                padding: 15px;
+                margin-bottom: 5px;
+
+                &-info {
+                    display: flex;
+                    img {
+                        width: 50px;
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+            .btn-group {
+                margin: 15px;
+                .btn {
+                    display: flex;
+                    width: 100%;
+                    border: 1px solid #172948;
+                    justify-content: center;
+                    color: #172948;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
